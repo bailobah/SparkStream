@@ -1,0 +1,127 @@
+<assembly>
+
+    <id>bin</id>
+
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <baseDirectory>${project.artifactId}-${project.version}</baseDirectory>
+
+    <fileSets>
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory>/apps/oozie/workflow/lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+                <include>libhadoop.so</include>
+                <include></include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>/apps/oozie/workflow/lib</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+                <include>lib/jcommander-1.72.jar</include>
+                <include>lib/commons-cli-1.4.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/hql</directory>
+            <outputDirectory>/apps/hql</outputDirectory>
+            <includes>
+                <include>create/**</include>
+                <include>process/**</include>
+                <include>*.hql</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/bash</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>*deploy*.sh</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </fileSet>
+    </fileSets>
+
+    <files>
+        <file>
+            <source>src/main/oozie/bundle/bundle.properties</source>
+            <outputDirectory>/apps/oozie/bundle</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>src/main/oozie/bundle/bundle.xml</source>
+            <outputDirectory>/apps/oozie/bundle</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </file>
+
+        <file>
+            <source>src/main/oozie/coordinator/tcoj_coordianator.xml</source>
+            <outputDirectory>/apps/oozie/coordinator</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </file>
+
+        <file>
+            <source>src/main/oozie/workflow/tcoj_workflow.xml</source>
+            <outputDirectory>/apps/oozie/workflow</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </file>
+
+        <!--TransCb-->
+
+        <file>
+            <source>src/main/oozie/coordinator/transcb_coordianator.xml</source>
+            <outputDirectory>/apps/oozie/coordinator</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </file>
+
+        <file>
+            <source>src/main/oozie/workflow/transcb_workflow.xml</source>
+            <outputDirectory>/apps/oozie/workflow</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </file>
+
+        <!--RefEs-->
+
+        <file>
+            <source>src/main/oozie/coordinator/refes_coordianator.xml</source>
+            <outputDirectory>/apps/oozie/coordinator</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </file>
+
+        <file>
+            <source>src/main/oozie/workflow/refes_workflow.xml</source>
+            <outputDirectory>/apps/oozie/workflow</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </file>
+        <!--AxeMdp-->
+
+        <file>
+            <source>src/main/oozie/coordinator/axe_mdp_coordianator.xml</source>
+            <outputDirectory>/apps/oozie/coordinator</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </file>
+
+        <file>
+            <source>src/main/oozie/workflow/axe_mdp_workflow.xml</source>
+            <outputDirectory>/apps/oozie/workflow</outputDirectory>
+            <lineEnding>unix</lineEnding>
+            <filtered>true</filtered>
+        </file>
+    </files>
+</assembly>
