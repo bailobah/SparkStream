@@ -1,0 +1,179 @@
+Todo :
+
+val conf= new SparkConf()
+val cliRecursiveGlobConf=conf.get("spark.hadoop.mapreduce.input.fileinputformat.input.dir.recursive")
+
+
+import org.apache.hadoop.mapreduce.lib.input.{FileSplit, TextInputFormat}
+import org.apache.spark.rdd.{NewHadoopRDD}
+import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.hadoop.io.LongWritable
+import org.apache.hadoop.io.Text
+
+val sc = new SparkContext(new SparkConf().setMaster("local"))
+
+val fc = classOf[TextInputFormat]
+val kc = classOf[LongWritable]
+val vc = classOf[Text]
+
+val path :String = "file:///home/user/test"
+val text = sc.newAPIHadoopFile(path, fc ,kc, vc, sc.hadoopConfiguration)
+
+val linesWithFileNames = text.asInstanceOf[NewHadoopRDD[LongWritable, Text]]
+           .mapPartitionsWithInputSplit((inputSplit, iterator) => {
+  val file = inputSplit.asInstanceOf[FileSplit]
+  iterator.map(tup => (file.getPath, tup._2))
+  }
+)
+
+linesWithFileNames.foreach(println)
+
+
+--
+ System.out.println("executing... [load config]")
+      val fs = FileSystem.get(context.hadoopConfiguration());
+      val propertiesStream = fs.open(new Path("hdfs:///tmp/spark.to-words.properties"))
+      val properties = new Properties()
+      properties.load(propertiesStream)
+
+      //create es conf
+      System.out.println("executing... [create es conf]")
+      val esConf = new JobConf()
+      esConf.set("es.nodes", properties.getProperty("logic.search-count.nodes"))
+
+
+
+    println("==============================================")
+    println("|Holdout Cross validation techniques example |")
+    println("==============================================")
+
+
+
+def run(path: String): Unit = {
+    val sc = ApplicationContext.getSparkContext(APP_NAME)
+
+    val text = sc.newAPIHadoopFile(path, classOf[TextInputFormat], classOf[LongWritable], classOf[Text], sc.hadoopConfiguration)
+
+    val linesWithFileNames: RDD[(Path, Text)] = text.asInstanceOf[NewHadoopRDD[LongWritable, Text]]
+      .mapPartitionsWithInputSplit((inputSplit, iterator) => {
+        val file = inputSplit.asInstanceOf[FileSplit]
+        iterator.map(tup => (file.getPath, tup._2))
+      }
+      )
+
+    linesWithFileNames.foreach(line => logger.info("folder : " + line._1 ))
+
+  }
+
+      conf.set("spark.testing.memory", "2147480000")
+
+
+
+ count.awk =
+{
+  print length($0);
+}
+
+awk -f count.awk $file | sort | uniq -c
+1                                                                            260
+4                                                                            346
+14                                                          347
+525                                                       348
+21527                                   349
+9169705                              350
+1                                                                            89
+
+val file = sc.textFile("/lake/gtps/a1645_roc_bddf/tcb/20180820/TRANSTOM.PHADP01M.EOMP2020.SNP058.D200818")//.map(row => row.trim )
+val filterFile = file.filter(row => row.trim.length >= 287  )
+val linesStat = filterFile.map( row => row.trim.length ).map( len => (len, 1))
+val f = linesStat.reduceByKey( (a, b) => a + b )
+f.foreach(println)
+
+### without trim
+(89,1)
+(350,9191775)
+
+## with trim
+(260,1)
+(0,1)
+(8,1)
+(6,1)
+(288,4)
+(289,72)
+(294,4116)
+(295,760837)
+(293,124357)
+(290,390)
+(292,11450)
+(291,2475)
+(287,8288071)
+
+Le filtre fonctionne bien
+
+La ligne qui pose problème : (awk 'length<261' $file)
+00000000000000000000000000000030352926  0387242000     P FR7630003011870005329476618             1I63082290061121407V20180816000000000000000000020180EUR2D000000000000020180EUR2050201000000ESP                            100811850                       Sant Adri
+
+Suppression de la ligne :
+sed '/^.\{260\}$/d' $file > $outputFile
+sed '/^.\{2\}$/d'
+sed '/^.{2}$/d' test.txt > test2
+
+sed '/^.\{2\}$/d' test.txt > test2
+
+
+killer un job oozie :
+export OOZIE_URL=http://dhadlx102.haas.socgen:11000/oozie 
+oozie job -oozie $OOZIE_URL -kill 0003766-180820180613315-oozie-oozi-C
+
+
+
+
+
+hdfs dfs -mkdir /lake/gtps/a1645_roc_bddf/tcb/bugs/
+hdfs dfs -mv /lake/gtps/a1645_roc_bddf/tcb/20180820/TRANSTOM.PHADP01M.EOMP2020.SNP058.D200818 /lake/gtps/a1645_roc_bddf/tcb/bugs/20180820/
+sed '/^.\{260\}$/d' /lake/gtps/a1645_roc_bddf/tcb/bugs/20180820/TRANSTOM.PHADP01M.EOMP2020.SNP058.D200818 > /lake/gtps/a1645_roc_bddf/tcb/20180820/TRANSTOM.PHADP01M.EOMP2020.SNP058.D200818
+
+iotpdadm@DDHAD -kt /etc/security/keytabs/iotpdadm.DDHAD.applicatif.keytab
+iotpdadm@DDHAD -kt /etc/security/keytabs/iotpdadm.DDHAD.applicatif.keytab
+
+
+hdfs dfs -text /lake/bddf/a1520_grc/dfe_pp_pm/20180720/PSEGP.PHADP01M.EMADF25M.3118072004002598741.D200718.RECU.bz2 | hdfs dfs -put - /lake/bddf/a1520_grc/dfe_pp_pm/20180720/uncompressed-file.txt
+
+
+#oozie
+
+oozie job -config ./apps/oozie/bundle/bundle.properties -run -oozie http://dhadlx102.haas.socgen:11000/oozie
+
+oozie validate -oozie http://dhadlx102.haas.socgen:11000/oozie apps/oozie/coordinator/tcoj_coordianator.xml
+oozie validate -oozie http://dhadlx102.haas.socgen:11000/oozie hdfs://dhadcluster02/project/bddf/iot/apps/oozie/workflow/tcoj_coordianator.xml
+
+oozie validate -oozie http://dhadlx102.haas.socgen:11000/oozie apps/oozie/workflow/tcoj_workflow.xml
+oozie validate -oozie $OOZIE_URL apps/oozie/workflow/axe_workflow.xml
+
+oozie job -info 0001706-181226174125171-oozie-oozi-B -oozie http://dhadlx102.haas.socgen:11000/oozie
+oozie job -logs 0001706-181226174125171-oozie-oozi-B -oozie http://dhadlx102.haas.socgen:11000/oozie
+
+
+export -oozie $OOZIE_URL=http://dhadlx102.haas.socgen:11000/oozie
+oozie jobs -filter name="[BDDF] [iot-4.0.0] [DEV]"  -oozie $OOZIE_URL
+oozie job -kill 0002824-181122120013643-oozie-oozi-B -oozie $OOZIE_URL
+${0 22 * * 2-6}
+
+
+
+
+#HIVE
+kinit PRINCIPAL -kt /etc/security/keytabs/PRINCIPAL.keytab 
+hive --hiveconf hive.execution.engine=mr
+SET hive.execution.engine=tez;
+SET tez.queue.name=QUEUE_NAME;
+use MON_SCHEMA;
+select count(*) from TABLE where id =1;
+
+import os , commands 
+
+def killAllRunningJobs(oozieURL):
+    runningJobs = commands.getoutput("oozie jobs -oozie " + oozieURL + " -jobtype coordinator | grep -i RUNNING |  awk -F \" \" '{print $1} " )
+    print "Current Running Co-ordinator Jobs : " + runningJobs
+    for jobs in runningJobs:
+        os.system("oozie job -oozie " + oozieURL + " -kill " + jobs)
